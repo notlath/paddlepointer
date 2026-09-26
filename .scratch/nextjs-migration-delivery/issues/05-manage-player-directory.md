@@ -4,11 +4,15 @@
 
 **Blocked by:** 01 Deploy the Next.js foundation; 03 Sign in with Better Auth and enforce role access.
 
-**Status:** ready-for-agent
+**Status:** implemented
 
-- [ ] Authorized staff can find and view Players and update a Player's skill level.
-- [ ] Player names remain unique, trimmed, and compared without regard to case; views show the current name.
-- [ ] Authorized staff can rename a Player and see the new name consistently in historical Match views.
-- [ ] Authorized staff can merge duplicate Players; Matches, skill level, and any linked account resolve to the surviving Player.
-- [ ] Merge is clearly identified as irreversible and requires an explicit confirmation.
-- [ ] Browser journeys cover Player listing, skill level, rename, merge, validation failures, and denied access.
+- [x] Authorized staff can find and view Players and update a Player's skill level.
+- [x] Player names remain unique, trimmed, and compared without regard to case; views show the current name.
+- [x] Authorized staff can rename a Player and see the new name consistently in historical Match views.
+- [x] Authorized staff can merge duplicate Players; Matches, skill level, and any linked account resolve to the surviving Player.
+- [x] Merge is clearly identified as irreversible and requires an explicit confirmation.
+- [x] Browser journeys cover Player listing, skill level, rename, merge, validation failures, and denied access.
+
+Match participation is stored by Player ID, so a rename or Merge appears under the surviving Player's current name in read-only Match history. The later Match-flow tickets will extend this relational Match record with scores, Rallies, and scheduling data.
+
+As in the legacy Player directory, Merge refuses two Players who both occupy slots in one Match, or who both have linked accounts. Staff must resolve that conflicting Match or account link before retrying; silently discarding a participant or account would corrupt history.

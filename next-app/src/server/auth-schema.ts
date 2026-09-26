@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { player } from "./player-schema";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -16,6 +17,7 @@ export const user = pgTable("user", {
   displayUsername: text("display_username"),
   role: text("role").default("visitor").notNull(),
   isActive: boolean("is_active").default(true).notNull(),
+  playerId: text("player_id").unique().references(() => player.id),
 });
 
 export const session = pgTable(
