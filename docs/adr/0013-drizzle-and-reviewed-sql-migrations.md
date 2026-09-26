@@ -1,0 +1,7 @@
+---
+status: accepted
+---
+
+# Use Drizzle with reviewed SQL migrations
+
+The current MySQL schema combines relational Player and Tournament Match records with JSON Match and Tournament payloads; the Next.js app will use Drizzle with Supabase PostgreSQL, normalizing stable facts and keeping ordered Rally logs and genuinely variable payloads in JSONB. Prisma could model the same relational/JSONB shape and offers generated client types, versioned Prisma Migrate files, transactions, and Vercel-compatible deployment; Drizzle is selected because its TypeScript schema and inferred query types keep the application model close to SQL and Supabase documents this integration. Keep the TypeScript schema and reviewed SQL migrations in source control, generate with `drizzle-kit generate`, apply with `drizzle-kit migrate`, reserve `push` for disposable local databases, and run migrations as a controlled release step before traffic; use bounded `db.transaction` calls for multi-record invariants, restartable batches for imports, and Vercel's Node runtime with the Supabase transaction pooler, prepared statements disabled, and conservative per-function connection counts ([Supabase](https://supabase.com/docs/guides/database/drizzle), [Drizzle migrations](https://orm.drizzle.team/docs/migrations), [Drizzle transactions](https://orm.drizzle.team/docs/transactions), [Supabase connections](https://supabase.com/docs/guides/database/connecting-to-postgres), [Prisma migrations](https://www.prisma.io/docs/orm/prisma-migrate/workflows/development-and-production)).

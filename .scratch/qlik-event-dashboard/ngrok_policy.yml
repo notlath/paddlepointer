@@ -1,0 +1,14 @@
+on_http_request:
+  # Qlik Cloud's REST connector only needs the key-protected analytics endpoints.
+  # Everything else (/.env, /.git, /.scratch with the tenant API key) stays off the tunnel.
+  - expressions:
+      - "!req.url.path.startsWith('/api/qlik/')"
+    actions:
+      - type: deny
+        config:
+          status_code: 404
+  - actions:
+      - type: add-headers
+        config:
+          headers:
+            host: paddlepoint.test

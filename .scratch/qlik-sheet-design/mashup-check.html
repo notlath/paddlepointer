@@ -1,0 +1,20 @@
+<!doctype html>
+<!-- Verification harness for qlik-mashup.js without signing in to PaddlePoint.
+     Needs a same-origin tmp-token.php returning the embed user token; delete it after. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mashup check</title>
+<link rel="stylesheet" href="../../styles.css"><link rel="stylesheet" href="../../qlik-mashup.css">
+<style>body{padding:16px;background:var(--surface-page)}</style></head>
+<body><main id="app" class="page"></main>
+<script>
+  window.getPaddlePointQlikToken = () => fetch("tmp-token.php").then((r) => r.text());
+  const ids = ["dashboard", "overview", "match-analysis", "leaderboard", "player-performance", "partnership-analysis", "court-analytics"];
+  function render() {
+    const id = location.hash.slice(1) || "overview";
+    document.getElementById("app").innerHTML = `<nav class="analytics-subnav">${ids.map((i) => `<a class="analytics-tab-btn ${i === id ? "active" : ""}" href="#${i}">${i}</a>`).join("")}</nav><div data-qlik-mashup="${id}"></div>`;
+    window.PaddlePointQlikMashup && window.PaddlePointQlikMashup.attach(document.getElementById("app"));
+  }
+  addEventListener("hashchange", render); render();
+</script>
+<script type="module" src="../../qlik-mashup.js"></script>
+</body></html>

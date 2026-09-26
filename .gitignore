@@ -1,0 +1,24 @@
+# Local AI tooling — machine-specific config, vendored skill caches, and scratch drafts.
+# None of this is part of the app; see .scratch/architecture-refactors/issues/ for the real backlog.
+.agents/
+.claude/
+.codex/
+.serena/
+skills-lock.json
+.scratch/commit-msg.txt
+.scratch/main-sync/
+.scratch/qlik-event-dashboard/fix-missing-visualization.*
+.scratch/ui-ux-audit-p3/live-board-layout.test.js
+.scratch/qlik-event-dashboard/qlik_token.txt
+.scratch/qlik-event-dashboard/qlik_m2m.txt
+.env
+.env.*
+!.env.example
+
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Generated local knowledge graph; rebuild it with graphify when needed.
+graphify-out/

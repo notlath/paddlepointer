@@ -1,0 +1,15 @@
+<!doctype html>
+<html><head><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mashup check</title>
+<link rel="stylesheet" href="../../styles.css"><link rel="stylesheet" href="../../qlik-mashup.css">
+<script type="importmap">{ "imports": { "https://cdn.jsdelivr.net/npm/@qlik/api@2.16.0/qix.js": "./fake-qix.js" } }</script>
+<style>body { background: var(--surface-page); margin: 0; padding: 16px; }</style>
+</head><body class="app-mode"><main id="app"><h1 id="subject"></h1><article class="panel analytics-sheet-panel"><div id="slot"></div></article></main>
+<script>
+  const s = new URLSearchParams(location.search).get("s") || "overview";
+  document.getElementById("subject").textContent = s;
+  document.getElementById("slot").innerHTML = `<div data-qlik-mashup="${s}"></div>`;
+</script>
+<script src="../../vendor/d3-7.9.0.min.js" defer></script>
+<script type="module" src="../../qlik-mashup.js"></script>
+</body></html>
