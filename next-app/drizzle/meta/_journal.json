@@ -15,6 +15,13 @@
       "when": 1790430718415,
       "tag": "0001_married_earthquake",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790443982778,
+      "tag": "0002_known_justin_hammer",
+      "breakpoints": true
     }
   ]
 }
