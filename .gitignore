@@ -22,3 +22,5 @@ Thumbs.db
 
 # Generated local knowledge graph; rebuild it with graphify when needed.
 graphify-out/
+/.vercel/
+/.env.local
