@@ -4,10 +4,10 @@
 
 **Blocked by:** None (can start immediately).
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] A minimal application shell deploys successfully to a Vercel preview environment.
-- [ ] The server can connect to Supabase PostgreSQL through Drizzle and report a useful health state without exposing credentials.
-- [ ] Development, preview, staging, and production configuration boundaries are documented, with secrets kept server-side.
-- [ ] The application has a documented database migration workflow suitable for local development and deployment.
-- [ ] A browser-level smoke check verifies the deployed shell and database health path.
+- [x] A minimal application shell deploys successfully to a Vercel preview environment.
+- [x] The server can connect to Supabase PostgreSQL through Drizzle and report a useful health state without exposing credentials.
+- [x] Development, preview, staging, and production configuration boundaries are documented, with secrets kept server-side.
+- [x] The application has a documented database migration workflow suitable for local development and deployment.
+- [x] A browser-level smoke check verifies the deployed shell and database health path.

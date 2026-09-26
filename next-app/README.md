@@ -10,7 +10,7 @@ Use Bun. Run `bun install --frozen-lockfile`, copy `.env.example` to `.env.local
 
 ## Environments and deployment
 
-Create a Vercel project with **Root Directory** set to `next-app` and **Framework Preset** set to Next.js. Connect this repository and deploy this branch as a Preview. Set `DATABASE_URL` as a server-side environment variable in Vercel; do not prefix it with `NEXT_PUBLIC_`. Configure separate Supabase databases and environment variable values:
+The isolated Vercel project is `lathrells-projects/paddlepointer-next-preview`, connected to this repository with **Root Directory** set to `next-app` and **Framework Preset** set to Next.js. Its first [Preview deployment](https://paddlepointer-next-preview-h3y7n9vk4-lathrells-projects.vercel.app) uses the disposable Supabase project `paddlepointer-next-preview` (`xrkgxbqwvikvkgclwgau`). `DATABASE_URL` and `DIRECT_DATABASE_URL` are sensitive Vercel Preview variables; do not prefix either with `NEXT_PUBLIC_`. Configure separate Supabase databases and environment variable values:
 
 | Environment | Vercel scope | Database |
 | --- | --- | --- |
@@ -21,7 +21,7 @@ Create a Vercel project with **Root Directory** set to `next-app` and **Framewor
 
 Later authentication, email, and Qlik secrets must follow the same boundaries and stay in server-side Vercel variables. Do not reuse preview credentials in production. Do not expose any database URL in browser code or commit `.env.local`.
 
-After the Preview deployment is live, run `SMOKE_BASE_URL=https://<preview-url> bun run test:smoke`. This checks the rendered shell in a browser and requires the health endpoint to report a working database. The same command without `SMOKE_BASE_URL` starts a local server; local health may be unconfigured. Install the Playwright browser first with `bunx playwright install chromium`.
+Run `SMOKE_BASE_URL=https://<preview-url> bun run test:smoke` against a Preview deployment. This checks the rendered shell in a browser and requires the health endpoint to report a working database. Vercel SSO protects this project's previews. For an automated check, set `VERCEL_AUTOMATION_BYPASS_SECRET` in the test process to the project's automation bypass secret; Playwright sends it only in request headers. Keep that secret outside the repository. The same command without `SMOKE_BASE_URL` starts a local server; local health may be unconfigured. Install the Playwright browser first with `bunx playwright install chromium`.
 
 ## Database migrations
 
