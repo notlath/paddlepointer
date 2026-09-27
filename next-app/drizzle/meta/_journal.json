@@ -57,6 +57,13 @@
       "when": 1790499854057,
       "tag": "0007_sour_monster_badoon",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1790512512553,
+      "tag": "0008_overconfident_earthquake",
+      "breakpoints": true
     }
   ]
 }

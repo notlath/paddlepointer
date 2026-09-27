@@ -4,10 +4,10 @@
 
 **Blocked by:** 06 Set up and schedule Open Play; 07 Prototype and deliver the Scoreboard Match flow.
 
-**Status:** ready-for-agent
+**Status:** implemented
 
-- [ ] The Live Board shows current, next, and completed Tournament Matches by court using authorized public Event data.
-- [ ] Supabase Broadcast sends only minimal change notices; after a notice, the browser refetches current data through Next.js.
-- [ ] Automated polling refreshes the Live Board when Broadcast is unavailable or disconnected.
-- [ ] Broadcast messages contain no account or private Visitor information.
-- [ ] Browser journeys verify timely refresh, polling fallback, connection recovery, responsive layout, and read-only spectator access.
+- [x] The Live Board shows current, next, and completed Tournament Matches by court using authorized public Event data.
+- [x] Supabase Broadcast sends only minimal change notices; after a notice, the browser refetches current data through Next.js.
+- [x] Automated polling refreshes the Live Board when Broadcast is unavailable or disconnected.
+- [x] Broadcast messages contain no account or private Visitor information.
+- [x] Browser journeys verify timely refresh, polling fallback, connection recovery, responsive layout, and read-only spectator access.

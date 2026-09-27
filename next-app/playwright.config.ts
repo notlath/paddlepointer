@@ -2,6 +2,11 @@ import { defineConfig } from "@playwright/test";
 
 const baseURL = process.env.SMOKE_BASE_URL ?? "http://127.0.0.1:3000";
 
+if (!process.env.SMOKE_BASE_URL) {
+  process.env.NEXT_PUBLIC_SUPABASE_URL ??= "http://127.0.0.1:37999";
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??= "live-board-test-key";
+}
+
 export default defineConfig({
   workers: 1,
   use: {

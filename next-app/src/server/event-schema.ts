@@ -25,3 +25,9 @@ export const currentEvent = pgTable("current_event", {
   singleton: integer("singleton").primaryKey(),
   eventId: text("event_id").notNull().references(() => event.id),
 });
+
+export const eventRevision = pgTable("event_revision", {
+  eventId: text("event_id").primaryKey().references(() => event.id),
+  revision: integer("revision").notNull().default(0),
+  lastTxid: text("last_txid").notNull(),
+});
