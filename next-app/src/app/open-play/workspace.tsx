@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import type { readOpenPlay } from "@/server/open-play";
 import { adjustMatchAction, generateScheduleAction, saveSetupAction } from "./actions";
 
@@ -74,6 +75,7 @@ export function OpenPlayWorkspace({ initial, players }: { initial: Schedule; pla
       {schedule.rounds.map((round) => <section key={round.number}><h3>Round {round.number}</h3>
         {round.matches.map((match) => <form key={`${match.id}:${round.number}:${match.court}:${match.teamA.map((item) => item.playerId)}:${match.teamB.map((item) => item.playerId)}`} onSubmit={(event) => adjust(match.id, event)}>
           <h4>Tournament Match — Court {match.court}</h4>
+          <p><Link href={`/scoreboard/${match.id}`}>{match.status === "scheduled" ? "Open Scoreboard" : match.status === "in_progress" ? "Resume Match" : "Review Match"}</Link></p>
           <label>Round <input name="round" type="number" min="1" max="999" defaultValue={round.number} required /></label>
           <label>Court <input name="court" type="number" min="1" max={schedule.courts} defaultValue={match.court} required /></label>
           {(["a1", "a2", "b1", "b2"] as const).map((field, index) => <label key={field}>{index < 2 ? "Team A" : "Team B"} Player {index % 2 + 1}
