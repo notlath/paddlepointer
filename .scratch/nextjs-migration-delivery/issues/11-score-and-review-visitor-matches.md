@@ -4,10 +4,12 @@
 
 **Blocked by:** 03 Sign in with Better Auth and enforce role access; 07 Prototype and deliver the Scoreboard Match flow; 10 Review History and Leaderboards.
 
-**Status:** ready-for-agent
+**Status:** implemented; local database browser verification pending
 
-- [ ] A Visitor can complete one-time-code email verification and access only the account associated with that verified email.
-- [ ] A Visitor can score and save Matches that belong to no Event and whose names do not create Player records.
-- [ ] A Visitor can review only their own Match History and Visitor Leaderboard.
-- [ ] Visitor Matches do not appear in MTC Event Leaderboards or other Visitors' views.
-- [ ] Browser and email contract journeys cover verification, scoring, privacy isolation, expired codes, and recovery from delivery or network errors.
+- [x] A Visitor can complete one-time-code email verification and access only the account associated with that verified email.
+- [x] A Visitor can score and save Matches that belong to no Event and whose names do not create Player records.
+- [x] A Visitor can review only their own Match History and Visitor Leaderboard.
+- [x] Visitor Matches do not appear in MTC Event Leaderboards or other Visitors' views.
+- [x] Browser and email contract journeys cover verification, scoring, privacy isolation, expired codes, and recovery from delivery or network errors.
+
+The browser journey requires a disposable local PostgreSQL database with migration 0009 applied and an auth test outbox. It is implemented but cannot execute in a workspace without those prerequisites.

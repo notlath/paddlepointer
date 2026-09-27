@@ -10,6 +10,7 @@ export default async function AccountPage() {
     <p>{principal.name} ({principal.role})</p>
     <p>{principal.email}</p>
     {principal.role !== "visitor" && <p><a href="/staff">Staff workspace</a></p>}
+    {principal.role === "visitor" && <p><a href="/visitor">Visitor Matches</a></p>}
     <p>Private account data is available through the server at <code>/api/accounts/{principal.id}</code>.</p>
     <SignOut />
   </main>;
