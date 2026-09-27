@@ -17,6 +17,9 @@ try {
         'players' => $pdo->query('SELECT id, name, skill_level, created_at FROM players ORDER BY id')->fetchAll(),
         'tournaments' => $pdo->query('SELECT id, name, court_count, tournament_json, updated_at FROM tournaments ORDER BY id')->fetchAll(),
         'matches' => $pdo->query('SELECT tournament_id, id, round, court, status, team_a, team_b FROM tournament_matches ORDER BY tournament_id, sort_order, id')->fetchAll(),
+        'games' => $pdo->query('SELECT id, created_by_user_id, created_by_role, match_scope, tournament_id, tournament_match_id, team_a_score, team_b_score, winner_team, started_at, ended_at, game_json FROM games ORDER BY id')->fetchAll(),
+        'gamePlayers' => $pdo->query('SELECT game_id, team, player_name, player_id FROM game_players ORDER BY game_id, team, id')->fetchAll(),
+        'legacyUsers' => $pdo->query('SELECT id, role FROM users ORDER BY id')->fetchAll(),
         'currentEventId' => $pdo->query("SELECT setting_value FROM app_settings WHERE setting_key = 'current_event_id'")->fetchColumn() ?: null,
     ];
     $pdo->commit();
