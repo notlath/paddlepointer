@@ -13,7 +13,8 @@
     "provision:player": "bun scripts/provision-player-account.ts",
     "link:player": "bun scripts/link-player-account.ts",
     "qlik:reload-pending": "bun scripts/run-pending-qlik-reload.ts",
-    "test:qlik-reload": "bun tests/qlik-reload.check.ts"
+    "test:qlik-reload": "bun tests/qlik-reload.check.ts",
+    "test:legacy-structure": "bun tests/legacy-structure.check.ts && bun tests/legacy-structure.integration.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",

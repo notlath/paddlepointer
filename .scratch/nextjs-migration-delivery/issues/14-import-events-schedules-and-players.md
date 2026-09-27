@@ -4,10 +4,10 @@
 
 **Blocked by:** 04 Manage the Current Event; 05 Manage the Player directory; 06 Set up and schedule Open Play.
 
-**Status:** ready-for-agent
+**Status:** implemented; disposable PostgreSQL integration run and populated legacy snapshot verification pending
 
-- [ ] A repeatable import handles representative legacy Event, Tournament, Round, court, Tournament Match, Player, and skill-level data.
-- [ ] Stable relationships are preserved in the relational schema; legacy JSON is transformed into the agreed canonical model where applicable.
-- [ ] The import reports source counts, imported counts, rejected records, and relationship discrepancies without silently dropping data.
-- [ ] Imported records are visible in the Next.js Event and Player views and do not overwrite unrelated target data on a repeat rehearsal.
-- [ ] Integration coverage verifies identity, schedule, and foreign-key integrity using representative source fixtures.
+- [x] A repeatable import handles representative legacy Event, Tournament, Round, court, Tournament Match, Player, and skill-level data.
+- [x] Stable relationships are preserved in the relational schema; legacy JSON is transformed into the agreed canonical model where applicable.
+- [x] The import reports source counts, imported counts, rejected records, and relationship discrepancies without silently dropping data.
+- [x] Imported records are visible in the Next.js Event and Player views and do not overwrite unrelated target data on a repeat rehearsal.
+- [x] Integration coverage verifies identity, schedule, and foreign-key integrity using representative source fixtures.
