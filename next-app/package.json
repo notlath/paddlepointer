@@ -11,7 +11,9 @@
     "db:migrate": "drizzle-kit migrate",
     "bootstrap:super-admin": "bun scripts/bootstrap-super-admin.ts",
     "provision:player": "bun scripts/provision-player-account.ts",
-    "link:player": "bun scripts/link-player-account.ts"
+    "link:player": "bun scripts/link-player-account.ts",
+    "qlik:reload-pending": "bun scripts/run-pending-qlik-reload.ts",
+    "test:qlik-reload": "bun tests/qlik-reload.check.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",

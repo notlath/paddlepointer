@@ -41,6 +41,16 @@ For local browser auth tests, use a disposable PostgreSQL database with migratio
 
 Run `SMOKE_BASE_URL=https://<preview-url> bun run test:smoke` against a Preview deployment. This checks the rendered shell in a browser and requires the health endpoint to report a working database. Vercel SSO protects this project's previews. For an automated check, set `VERCEL_AUTOMATION_BYPASS_SECRET` in the test process to the project's automation bypass secret; Playwright sends it only in request headers. Keep that secret outside the repository. The same command without `SMOKE_BASE_URL` starts a local server; local health may be unconfigured. Install the Playwright browser first with `bunx playwright install chromium`.
 
+## Qlik analytics
+
+Apply migration 0010 before enabling the Next.js Qlik routes. The existing `GET /api/qlik/get-events.php`, `get-matches.php`, `get-leaderboard-results.php`, and `get-leaderboard-players.php` paths return `{ ok, rows }` and require `X-Analytics-Key: <ANALYTICS_KEY>`. Set a distinct server-side key per environment and update the Qlik REST connection only when that environment becomes its source. Do not put this key in a query string or browser code.
+
+The staff-only `/analytics` view uses the existing six Qlik mashup subjects and asks `GET /api/qlik/get-embed-token.php` for a short-lived user impersonation token. Set `QLIK_TENANT_URL`, `QLIK_APP_ID`, `QLIK_EMBED_CLIENT_ID`, `QLIK_M2M_CLIENT_ID`, `QLIK_M2M_CLIENT_SECRET`, and `QLIK_EVENT_VIEWER_SUBJECT` per environment. The M2M secret and subject stay server-side; the browser receives only the access token. The existing Qlik app remains a read-only analytics copy; PaddlePointer continues to write only PostgreSQL.
+
+The mashup JavaScript and stylesheet under `public/` are an isolated copy of the legacy assets for the Next.js deployment. Keep them in sync until the legacy root application is retired; after cutover, the Next.js copy becomes the only served version. Match `played_at` and `ended_at` are the normalized source for Qlik's Tournament Match `startedAt` and `completedAt` fields, including the Event window.
+
+Migration 0010 coalesces source-data writes into a pending reload marker. If triggered reloads are used, set `QLIK_RELOAD_TRIGGER_URL` and `QLIK_RELOAD_TRIGGER_TOKEN` server-side and schedule `bun run qlik:reload-pending` every minute in the deployment environment. Failed triggers leave the marker for retry. Keep Qlik's periodic reload as the backstop. Visitor Matches do not mark Qlik reloads because they are excluded from MTC feeds.
+
 ## Database migrations
 
 Domain tables are intentionally deferred to later tickets; the auth tables are now present. `src/server/schema.ts` is the Drizzle schema entry point. For each schema change, update that file, run `bun run db:generate`, review and commit the generated SQL in `drizzle/`, then run `bun run db:migrate` against a disposable development database. Apply the same committed migrations to preview and staging before their deployments. Promote those migrations to production as a separate release step before deploying code that needs them. Set `DIRECT_DATABASE_URL` in the shell that runs `db:migrate`; it is not required by the app at runtime. Do not run `drizzle-kit push` against shared environments.

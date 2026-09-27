@@ -3,3 +3,4 @@ export * from "./auth-schema";
 export * from "./player-schema";
 export * from "./schedule-schema";
 export * from "./visitor-schema";
+export * from "./qlik-schema";

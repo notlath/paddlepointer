@@ -71,6 +71,13 @@
       "when": 1790514124227,
       "tag": "0009_empty_scarlet_spider",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790515180006,
+      "tag": "0010_tranquil_jean_grey",
+      "breakpoints": true
     }
   ]
 }
