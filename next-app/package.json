@@ -17,7 +17,8 @@
     "test:legacy-structure": "bun tests/legacy-structure.check.ts && bun tests/legacy-structure.integration.ts",
     "test:legacy-matches": "bun tests/legacy-matches.check.ts && bun tests/legacy-matches.integration.ts",
     "test:reconciliation": "bun tests/reconciliation.check.ts",
-    "migration:rehearse": "bun scripts/rehearse-migration.ts"
+    "migration:rehearse": "bun scripts/rehearse-migration.ts",
+    "test:cutover-freeze": "bun tests/cutover-freeze.check.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",

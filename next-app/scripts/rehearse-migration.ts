@@ -11,25 +11,26 @@ import { fixtureIds, rehearsalFixture } from "./rehearsal-fixture";
 const args = process.argv.slice(2);
 const option = (name: string) => { const index = args.indexOf(name); return index < 0 ? null : args[index + 1] ?? null; };
 const fixture = args.includes("--fixture");
+const verifyOnly = args.includes("--verify-only");
 const reportPath = option("--report");
 const sourcePath = option("--snapshot");
 const visitorMapPath = option("--visitor-map");
 const playerMapPath = option("--player-map");
-const targetURL = process.env.MIGRATION_TEST_DATABASE_URL;
+const targetURL = verifyOnly ? process.env.CUTOVER_DATABASE_URL : process.env.MIGRATION_TEST_DATABASE_URL;
 const guardToken = process.env.MIGRATION_TEST_GUARD_TOKEN;
 if (!reportPath || !targetURL || fixture === Boolean(sourcePath)) {
-  console.error("Usage: MIGRATION_TEST_DATABASE_URL=... bun scripts/rehearse-migration.ts (--fixture | --snapshot file [--visitor-map file] [--player-map file]) --report file");
+  console.error("Usage: bun scripts/rehearse-migration.ts [--verify-only] (--fixture | --snapshot file [--visitor-map file] [--player-map file]) --report file; set MIGRATION_TEST_DATABASE_URL for rehearsal or CUTOVER_DATABASE_URL for read-only verification");
   process.exit(2);
 }
 const target = new URL(targetURL);
-for (const key of ["DATABASE_URL", "DIRECT_DATABASE_URL"]) {
+for (const key of verifyOnly ? [] : ["DATABASE_URL", "DIRECT_DATABASE_URL"]) {
   if (!process.env[key]) continue;
   const runtime = new URL(process.env[key]);
   if (target.hostname === runtime.hostname) throw new Error(`Refusing rehearsal: test database shares the ${key} host`);
 }
 
 const report: { version: number; sourceDigest: string | null; mode: string; importReports: Record<string, unknown>; checks: { name: string; expected: unknown; actual: unknown; passed: boolean }[]; reviewItems: string[]; failures: string[]; status: string; comparisonDigest: string | null } = {
-  version: 1, sourceDigest: null, mode: fixture ? "representative fixture" : "operator snapshot", importReports: {}, checks: [], reviewItems: [], failures: [], status: "fail", comparisonDigest: null,
+  version: 1, sourceDigest: null, mode: `${verifyOnly ? "read-only verification" : "rehearsal"}: ${fixture ? "representative fixture" : "operator snapshot"}`, importReports: {}, checks: [], reviewItems: [], failures: [], status: "fail", comparisonDigest: null,
 };
 const check = (name: string, expected: unknown, actual: unknown) => {
   const passed = digest(expected) === digest(actual);
@@ -41,12 +42,14 @@ const directory = await mkdtemp(join(tmpdir(), "mtc-migration-rehearsal-"));
 let closeAppDb = async () => {};
 try {
   const snapshot = fixture ? rehearsalFixture() : JSON.parse(await readFile(sourcePath!, "utf8")) as FullSnapshot;
-  if (!guardToken) throw new Error("MIGRATION_TEST_GUARD_TOKEN is required before rehearsal writes");
-  const [guardTable] = await sql`SELECT to_regclass(${"public.migration_rehearsal_guard"}) AS relation`;
-  if (!guardTable.relation) throw new Error("Disposable database guard table is missing");
-  const [guard] = await sql`SELECT token_hash FROM migration_rehearsal_guard WHERE singleton = 1`;
-  if (!guard || guard.token_hash !== digest(guardToken)) throw new Error("Disposable database guard token does not match");
-  check("disposable database guard", true, true);
+  if (!verifyOnly) {
+    if (!guardToken) throw new Error("MIGRATION_TEST_GUARD_TOKEN is required before rehearsal writes");
+    const [guardTable] = await sql`SELECT to_regclass(${"public.migration_rehearsal_guard"}) AS relation`;
+    if (!guardTable.relation) throw new Error("Disposable database guard table is missing");
+    const [guard] = await sql`SELECT token_hash FROM migration_rehearsal_guard WHERE singleton = 1`;
+    if (!guard || guard.token_hash !== digest(guardToken)) throw new Error("Disposable database guard token does not match");
+    check("disposable database guard", true, true);
+  }
   const structure = planLegacyStructure(snapshot);
   const matches = planLegacyMatches(snapshot);
   report.sourceDigest = digest(snapshot);
@@ -60,7 +63,7 @@ try {
   const players = fixture ? { 8: fixtureIds.playerUser } : playerMapPath ? JSON.parse(await readFile(playerMapPath, "utf8")) as Record<string, string> : {};
   const visitorFile = join(directory, "visitors.json");
   await writeFile(visitorFile, JSON.stringify(visitors));
-  if (fixture) {
+  if (fixture && !verifyOnly) {
     await sql`INSERT INTO "user" (id, name, email, email_verified, role, is_active) VALUES (${fixtureIds.visitorUser}, ${"Rehearsal Visitor"}, ${"rehearsal-visitor-v1@example.test"}, true, ${"visitor"}, true) ON CONFLICT DO NOTHING`;
     await sql`INSERT INTO "user" (id, name, email, email_verified, role, is_active) VALUES (${fixtureIds.playerUser}, ${"Rehearsal Player"}, ${"rehearsal-player-v1@example.test"}, true, ${"player"}, true) ON CONFLICT DO NOTHING`;
   }
@@ -70,9 +73,11 @@ try {
     report.importReports[script] = parsed;
     if (result.status !== 0 || parsed.committed !== true) { report.failures.push(`${script} did not commit`); throw new Error(`${script} failed`); }
   };
-  runImport("import-legacy-structure.ts", [snapshotFile]);
-  if (fixture) await sql`UPDATE "user" SET player_id = ${"legacy:player:1"} WHERE id = ${fixtureIds.playerUser} AND (player_id IS NULL OR player_id = ${"legacy:player:1"})`;
-  runImport("import-legacy-matches.ts", [snapshotFile, visitorFile]);
+  if (!verifyOnly) {
+    runImport("import-legacy-structure.ts", [snapshotFile]);
+    if (fixture) await sql`UPDATE "user" SET player_id = ${"legacy:player:1"} WHERE id = ${fixtureIds.playerUser} AND (player_id IS NULL OR player_id = ${"legacy:player:1"})`;
+    runImport("import-legacy-matches.ts", [snapshotFile, visitorFile]);
+  }
 
   const tables = {
     players: { table: "player", ids: structure.rows.players.map((row) => row.id) },

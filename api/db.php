@@ -42,6 +42,9 @@ function handle_options(): void
 
 function pdo_connection(): PDO
 {
+    if (write_freeze_blocks($_SERVER['REQUEST_METHOD'] ?? 'GET')) {
+        send_json(['ok' => false, 'error' => 'Writes are temporarily paused for migration'], 503);
+    }
     static $pdo = null;
     if ($pdo instanceof PDO) {
         return $pdo;
@@ -68,6 +71,11 @@ function pdo_connection(): PDO
     migrate($pdo);
 
     return $pdo;
+}
+
+function write_freeze_blocks(string $method): bool
+{
+    return getenv('PP_WRITE_FREEZE') === '1' && !in_array(strtoupper($method), ['GET', 'HEAD', 'OPTIONS'], true);
 }
 
 // The Event that scorers, the Scoreboard, the Tournament view and the Live Board use
@@ -165,7 +173,7 @@ function user_from_request(PDO $pdo): ?array
     );
     $statement->execute([':token_hash' => hash('sha256', $token)]);
     $user = $statement->fetch();
-    if ($user && in_array($user['role'], ['admin', 'super_admin'], true) && (int)$user['seconds_remaining'] < 6 * 3600) {
+    if (getenv('PP_WRITE_FREEZE') !== '1' && $user && in_array($user['role'], ['admin', 'super_admin'], true) && (int)$user['seconds_remaining'] < 6 * 3600) {
         $extend = $pdo->prepare('UPDATE user_sessions SET expires_at = DATE_ADD(NOW(), INTERVAL 12 HOUR) WHERE token_hash = :token_hash');
         $extend->execute([':token_hash' => hash('sha256', $token)]);
     }

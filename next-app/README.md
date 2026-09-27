@@ -2,6 +2,8 @@
 
 This app is an isolated migration preview. The current PHP application remains at the repository root.
 
+The production traffic switch and PHP retirement are controlled by the [cutover runbook](../docs/migration/cutover-runbook.md). Set `PP_WRITE_FREEZE=1` on both applications during the final snapshot and validation window; release Next.js writes only at the recorded recovery boundary.
+
 ## Local development
 
 Use Bun. Run `bun install --frozen-lockfile`, copy `.env.example` to `.env.local`, set the database URLs, then run `bun run dev`. Open `http://localhost:3000`. The shell renders without a database; `GET /api/health` returns HTTP 200 with `{ "status": "ok", "database": "connected" }` only after a `select 1` through Drizzle succeeds. It returns HTTP 503 with `unconfigured` or `degraded` otherwise. The response never includes credentials or the underlying error.

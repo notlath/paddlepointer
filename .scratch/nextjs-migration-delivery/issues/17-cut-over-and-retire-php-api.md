@@ -4,11 +4,13 @@
 
 **Blocked by:** 08 Correct Tournament Match operations; 09 Follow play on the Live Board; 10 Review History and Leaderboards; 11 Score and review private Visitor Matches; 12 Restore Player account summaries; 13 Keep Qlik analytics working after PHP retirement; 16 Rehearse full migration and verify Qlik parity.
 
-**Status:** ready-for-agent
+**Status:** implementation prepared; production cutover pending named owner approval, production access, and between-Events window
 
-- [ ] The cutover runbook defines readiness checks, owner actions, communications, freeze timing, final synchronization, validation, and go/no-go criteria.
+- [x] The cutover runbook defines readiness checks, owner actions, communications, freeze timing, final synchronization, validation, and go/no-go criteria.
 - [ ] Production writes are frozen briefly, the final MySQL-to-Supabase sync is performed, and reconciliation passes before traffic moves.
 - [ ] Production application traffic moves to Next.js/Supabase without dual writes; Qlik feed and staff analytics workflows continue to work.
 - [ ] The old MySQL database is retained read-only and PHP endpoints are retired only after equivalent application and Qlik contracts are verified.
-- [ ] The runbook states that after the first production write to Supabase, recovery is fix-forward and does not reverse-sync into MySQL.
-- [ ] Post-cutover browser journeys cover staff, scorer, Visitor, Player, spectator, and Qlik-facing operations.
+- [x] The runbook states that after the first production write to Supabase, recovery is fix-forward and does not reverse-sync into MySQL.
+- [ ] Post-cutover browser journeys cover staff, scorer, Visitor, Player, spectator, and Qlik-facing operations. The runbook lists the journeys; execution awaits the live switch.
+
+Implementation evidence: `docs/migration/cutover-runbook.md` describes the operator sequence, `PP_WRITE_FREEZE` gates both applications, and `--verify-only` reconciles a frozen snapshot against a read-only PostgreSQL connection. The disposable Neon fixture passed 31 read-only checks with no failures and one expected Current Event review item. No production traffic, Qlik connection, MySQL permissions, or PHP deployment has been changed.
