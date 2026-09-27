@@ -4,10 +4,10 @@
 
 **Blocked by:** 12 Restore Player account summaries; 13 Keep Qlik analytics working after PHP retirement; 14 Import Events, Schedules, and Players; 15 Import Matches, Rally logs, and Visitor history.
 
-**Status:** ready-for-agent
+**Status:** implemented; fixture rehearsal passed on disposable Neon PostgreSQL with one documented Current Event review item; no populated legacy MySQL source exists
 
-- [ ] A repeatable rehearsal imports representative full-dataset data and produces a reviewable reconciliation report.
-- [ ] Reconciliation covers source and target counts, required references, scores, ordered Rally logs, Player identity links, account relationships, and Visitor isolation.
-- [ ] Representative Qlik feed outputs from the imported data match the established analytics contract and expected derived summaries.
-- [ ] The rehearsal surfaces unresolved differences as explicit failures or review items and does not modify production data.
-- [ ] An operator can repeat the rehearsal and compare results before the final production sync.
+- [x] A repeatable rehearsal imports representative full-dataset data and produces a reviewable reconciliation report.
+- [x] Reconciliation covers source and target counts, required references, scores, ordered Rally logs, Player identity links, account relationships, and Visitor isolation.
+- [x] Representative Qlik feed outputs from the imported data match the established analytics contract and expected derived summaries.
+- [x] The rehearsal surfaces unresolved differences as explicit failures or review items and does not modify production data.
+- [x] An operator can repeat the rehearsal and compare results before the final production sync.

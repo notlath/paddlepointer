@@ -1,0 +1,805 @@
+{
+  "version": 1,
+  "sourceDigest": "65c89bc0680eaa2b4518cf8e09a4a77e96c0617cc6b540caf80b55cf4823d84f",
+  "mode": "representative fixture",
+  "importReports": {
+    "import-legacy-structure.ts": {
+      "sourceCounts": {
+        "players": 4,
+        "tournaments": 1,
+        "matches": 3
+      },
+      "plannedCounts": {
+        "players": 4,
+        "events": 1,
+        "tournaments": 1,
+        "rosters": 4,
+        "rounds": 3,
+        "matches": 3,
+        "slots": 12
+      },
+      "importedCounts": {
+        "players": 4,
+        "events": 1,
+        "tournaments": 1,
+        "rosters": 4,
+        "rounds": 3,
+        "matches": 3,
+        "slots": 12
+      },
+      "rejected": [],
+      "relationshipDiscrepancies": [],
+      "targetConflicts": [],
+      "committed": true
+    },
+    "import-legacy-matches.ts": {
+      "sourceCounts": {
+        "games": 3,
+        "gamePlayers": 12,
+        "visitorGames": 1
+      },
+      "plannedCounts": {
+        "matches": 2,
+        "visitorMatches": 1,
+        "playerLinks": 8
+      },
+      "importedCounts": {
+        "matches": 2,
+        "visitorMatches": 1,
+        "playerLinks": 8
+      },
+      "rejected": [],
+      "discrepancies": [],
+      "targetConflicts": [],
+      "committed": true
+    }
+  },
+  "checks": [
+    {
+      "name": "disposable database guard",
+      "expected": true,
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "players count",
+      "expected": 4,
+      "actual": 4,
+      "passed": true
+    },
+    {
+      "name": "players identities",
+      "expected": [
+        "legacy:player:1",
+        "legacy:player:2",
+        "legacy:player:3",
+        "legacy:player:4"
+      ],
+      "actual": [
+        "legacy:player:1",
+        "legacy:player:2",
+        "legacy:player:3",
+        "legacy:player:4"
+      ],
+      "passed": true
+    },
+    {
+      "name": "events count",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "events identities",
+      "expected": [
+        "legacy:event:rehearsal_v1"
+      ],
+      "actual": [
+        "legacy:event:rehearsal_v1"
+      ],
+      "passed": true
+    },
+    {
+      "name": "tournaments count",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "tournaments identities",
+      "expected": [
+        "legacy:event:rehearsal_v1"
+      ],
+      "actual": [
+        "legacy:event:rehearsal_v1"
+      ],
+      "passed": true
+    },
+    {
+      "name": "rosters count",
+      "expected": 4,
+      "actual": 4,
+      "passed": true
+    },
+    {
+      "name": "rosters identities",
+      "expected": [
+        "legacy:event:rehearsal_v1/legacy:player:1",
+        "legacy:event:rehearsal_v1/legacy:player:2",
+        "legacy:event:rehearsal_v1/legacy:player:3",
+        "legacy:event:rehearsal_v1/legacy:player:4"
+      ],
+      "actual": [
+        "legacy:event:rehearsal_v1/legacy:player:1",
+        "legacy:event:rehearsal_v1/legacy:player:2",
+        "legacy:event:rehearsal_v1/legacy:player:3",
+        "legacy:event:rehearsal_v1/legacy:player:4"
+      ],
+      "passed": true
+    },
+    {
+      "name": "rounds count",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "name": "rounds identities",
+      "expected": [
+        "legacy:round:rehearsal_v1:1",
+        "legacy:round:rehearsal_v1:2",
+        "legacy:round:rehearsal_v1:3"
+      ],
+      "actual": [
+        "legacy:round:rehearsal_v1:1",
+        "legacy:round:rehearsal_v1:2",
+        "legacy:round:rehearsal_v1:3"
+      ],
+      "passed": true
+    },
+    {
+      "name": "slots count",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "name": "slots identities",
+      "expected": [
+        "legacy:match:rehearsal_v1:slot_active",
+        "legacy:match:rehearsal_v1:slot_done",
+        "legacy:match:rehearsal_v1:slot_scheduled"
+      ],
+      "actual": [
+        "legacy:match:rehearsal_v1:slot_active",
+        "legacy:match:rehearsal_v1:slot_done",
+        "legacy:match:rehearsal_v1:slot_scheduled"
+      ],
+      "passed": true
+    },
+    {
+      "name": "slotPlayers count",
+      "expected": 12,
+      "actual": 12,
+      "passed": true
+    },
+    {
+      "name": "slotPlayers identities",
+      "expected": [
+        "legacy:match:rehearsal_v1:slot_active/legacy:player:1",
+        "legacy:match:rehearsal_v1:slot_active/legacy:player:2",
+        "legacy:match:rehearsal_v1:slot_active/legacy:player:3",
+        "legacy:match:rehearsal_v1:slot_active/legacy:player:4",
+        "legacy:match:rehearsal_v1:slot_done/legacy:player:1",
+        "legacy:match:rehearsal_v1:slot_done/legacy:player:2",
+        "legacy:match:rehearsal_v1:slot_done/legacy:player:3",
+        "legacy:match:rehearsal_v1:slot_done/legacy:player:4",
+        "legacy:match:rehearsal_v1:slot_scheduled/legacy:player:1",
+        "legacy:match:rehearsal_v1:slot_scheduled/legacy:player:2",
+        "legacy:match:rehearsal_v1:slot_scheduled/legacy:player:3",
+        "legacy:match:rehearsal_v1:slot_scheduled/legacy:player:4"
+      ],
+      "actual": [
+        "legacy:match:rehearsal_v1:slot_active/legacy:player:1",
+        "legacy:match:rehearsal_v1:slot_active/legacy:player:2",
+        "legacy:match:rehearsal_v1:slot_active/legacy:player:3",
+        "legacy:match:rehearsal_v1:slot_active/legacy:player:4",
+        "legacy:match:rehearsal_v1:slot_done/legacy:player:1",
+        "legacy:match:rehearsal_v1:slot_done/legacy:player:2",
+        "legacy:match:rehearsal_v1:slot_done/legacy:player:3",
+        "legacy:match:rehearsal_v1:slot_done/legacy:player:4",
+        "legacy:match:rehearsal_v1:slot_scheduled/legacy:player:1",
+        "legacy:match:rehearsal_v1:slot_scheduled/legacy:player:2",
+        "legacy:match:rehearsal_v1:slot_scheduled/legacy:player:3",
+        "legacy:match:rehearsal_v1:slot_scheduled/legacy:player:4"
+      ],
+      "passed": true
+    },
+    {
+      "name": "matches count",
+      "expected": 2,
+      "actual": 2,
+      "passed": true
+    },
+    {
+      "name": "matches identities",
+      "expected": [
+        "legacy:game:rehearsal_active",
+        "legacy:game:rehearsal_done"
+      ],
+      "actual": [
+        "legacy:game:rehearsal_active",
+        "legacy:game:rehearsal_done"
+      ],
+      "passed": true
+    },
+    {
+      "name": "matchPlayers count",
+      "expected": 8,
+      "actual": 8,
+      "passed": true
+    },
+    {
+      "name": "matchPlayers identities",
+      "expected": [
+        "legacy:game:rehearsal_active/legacy:player:1",
+        "legacy:game:rehearsal_active/legacy:player:2",
+        "legacy:game:rehearsal_active/legacy:player:3",
+        "legacy:game:rehearsal_active/legacy:player:4",
+        "legacy:game:rehearsal_done/legacy:player:1",
+        "legacy:game:rehearsal_done/legacy:player:2",
+        "legacy:game:rehearsal_done/legacy:player:3",
+        "legacy:game:rehearsal_done/legacy:player:4"
+      ],
+      "actual": [
+        "legacy:game:rehearsal_active/legacy:player:1",
+        "legacy:game:rehearsal_active/legacy:player:2",
+        "legacy:game:rehearsal_active/legacy:player:3",
+        "legacy:game:rehearsal_active/legacy:player:4",
+        "legacy:game:rehearsal_done/legacy:player:1",
+        "legacy:game:rehearsal_done/legacy:player:2",
+        "legacy:game:rehearsal_done/legacy:player:3",
+        "legacy:game:rehearsal_done/legacy:player:4"
+      ],
+      "passed": true
+    },
+    {
+      "name": "visitors count",
+      "expected": 1,
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "name": "visitors identities",
+      "expected": [
+        "legacy:visitor:rehearsal_visitor"
+      ],
+      "actual": [
+        "legacy:visitor:rehearsal_visitor"
+      ],
+      "passed": true
+    },
+    {
+      "name": "legacy:game:rehearsal_done score and references",
+      "expected": {
+        "eventId": "legacy:event:rehearsal_v1",
+        "slotId": "legacy:match:rehearsal_v1:slot_done",
+        "status": "completed",
+        "scoreA": 3,
+        "scoreB": 0,
+        "winner": "A"
+      },
+      "actual": {
+        "eventId": "legacy:event:rehearsal_v1",
+        "slotId": "legacy:match:rehearsal_v1:slot_done",
+        "status": "completed",
+        "scoreA": 3,
+        "scoreB": 0,
+        "winner": "A"
+      },
+      "passed": true
+    },
+    {
+      "name": "legacy:game:rehearsal_done Rally order",
+      "expected": [
+        {
+          "id": "rehearsal_r1",
+          "rallyWinner": "A",
+          "previousScore": "0 - 0 - 2",
+          "newScore": "1 - 0 - 2",
+          "action": "point",
+          "servingTeamBefore": "A",
+          "servingTeamAfter": "A",
+          "serverNumberBefore": 2,
+          "serverNumberAfter": 2,
+          "currentServerIndexBefore": 0,
+          "currentServerIndexAfter": 0,
+          "serverNameBefore": "Rehearsal Ada",
+          "serverNameAfter": "Rehearsal Ada",
+          "serveSideBefore": "right",
+          "serveSideAfter": "left",
+          "scoreBefore": {
+            "A": 0,
+            "B": 0
+          },
+          "scoreAfter": {
+            "A": 1,
+            "B": 0
+          },
+          "createdAt": "2025-01-01T09:01:00Z"
+        },
+        {
+          "id": "rehearsal_r2",
+          "rallyWinner": "A",
+          "previousScore": "1 - 0 - 2",
+          "newScore": "2 - 0 - 2",
+          "action": "point",
+          "servingTeamBefore": "A",
+          "servingTeamAfter": "A",
+          "serverNumberBefore": 2,
+          "serverNumberAfter": 2,
+          "currentServerIndexBefore": 0,
+          "currentServerIndexAfter": 0,
+          "serverNameBefore": "Rehearsal Ada",
+          "serverNameAfter": "Rehearsal Ada",
+          "serveSideBefore": "left",
+          "serveSideAfter": "right",
+          "scoreBefore": {
+            "A": 1,
+            "B": 0
+          },
+          "scoreAfter": {
+            "A": 2,
+            "B": 0
+          },
+          "createdAt": "2025-01-01T09:02:00Z"
+        },
+        {
+          "id": "rehearsal_r3",
+          "rallyWinner": "A",
+          "previousScore": "2 - 0 - 2",
+          "newScore": "3 - 0 - 2",
+          "action": "point",
+          "servingTeamBefore": "A",
+          "servingTeamAfter": "A",
+          "serverNumberBefore": 2,
+          "serverNumberAfter": 2,
+          "currentServerIndexBefore": 0,
+          "currentServerIndexAfter": 0,
+          "serverNameBefore": "Rehearsal Ada",
+          "serverNameAfter": "Rehearsal Ada",
+          "serveSideBefore": "right",
+          "serveSideAfter": "left",
+          "scoreBefore": {
+            "A": 2,
+            "B": 0
+          },
+          "scoreAfter": {
+            "A": 3,
+            "B": 0
+          },
+          "createdAt": "2025-01-01T09:03:00Z"
+        }
+      ],
+      "actual": [
+        {
+          "id": "rehearsal_r1",
+          "rallyWinner": "A",
+          "previousScore": "0 - 0 - 2",
+          "newScore": "1 - 0 - 2",
+          "action": "point",
+          "servingTeamBefore": "A",
+          "servingTeamAfter": "A",
+          "serverNumberBefore": 2,
+          "serverNumberAfter": 2,
+          "currentServerIndexBefore": 0,
+          "currentServerIndexAfter": 0,
+          "serverNameBefore": "Rehearsal Ada",
+          "serverNameAfter": "Rehearsal Ada",
+          "serveSideBefore": "right",
+          "serveSideAfter": "left",
+          "scoreBefore": {
+            "A": 0,
+            "B": 0
+          },
+          "scoreAfter": {
+            "A": 1,
+            "B": 0
+          },
+          "createdAt": "2025-01-01T09:01:00Z"
+        },
+        {
+          "id": "rehearsal_r2",
+          "rallyWinner": "A",
+          "previousScore": "1 - 0 - 2",
+          "newScore": "2 - 0 - 2",
+          "action": "point",
+          "servingTeamBefore": "A",
+          "servingTeamAfter": "A",
+          "serverNumberBefore": 2,
+          "serverNumberAfter": 2,
+          "currentServerIndexBefore": 0,
+          "currentServerIndexAfter": 0,
+          "serverNameBefore": "Rehearsal Ada",
+          "serverNameAfter": "Rehearsal Ada",
+          "serveSideBefore": "left",
+          "serveSideAfter": "right",
+          "scoreBefore": {
+            "A": 1,
+            "B": 0
+          },
+          "scoreAfter": {
+            "A": 2,
+            "B": 0
+          },
+          "createdAt": "2025-01-01T09:02:00Z"
+        },
+        {
+          "id": "rehearsal_r3",
+          "rallyWinner": "A",
+          "previousScore": "2 - 0 - 2",
+          "newScore": "3 - 0 - 2",
+          "action": "point",
+          "servingTeamBefore": "A",
+          "servingTeamAfter": "A",
+          "serverNumberBefore": 2,
+          "serverNumberAfter": 2,
+          "currentServerIndexBefore": 0,
+          "currentServerIndexAfter": 0,
+          "serverNameBefore": "Rehearsal Ada",
+          "serverNameAfter": "Rehearsal Ada",
+          "serveSideBefore": "right",
+          "serveSideAfter": "left",
+          "scoreBefore": {
+            "A": 2,
+            "B": 0
+          },
+          "scoreAfter": {
+            "A": 3,
+            "B": 0
+          },
+          "createdAt": "2025-01-01T09:03:00Z"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "legacy:game:rehearsal_active score and references",
+      "expected": {
+        "eventId": "legacy:event:rehearsal_v1",
+        "slotId": "legacy:match:rehearsal_v1:slot_active",
+        "status": "active",
+        "scoreA": 1,
+        "scoreB": 0,
+        "winner": null
+      },
+      "actual": {
+        "eventId": "legacy:event:rehearsal_v1",
+        "slotId": "legacy:match:rehearsal_v1:slot_active",
+        "status": "active",
+        "scoreA": 1,
+        "scoreB": 0,
+        "winner": null
+      },
+      "passed": true
+    },
+    {
+      "name": "legacy:game:rehearsal_active Rally order",
+      "expected": [
+        {
+          "id": "rehearsal_active_r1",
+          "rallyWinner": "A",
+          "previousScore": "0 - 0 - 2",
+          "newScore": "1 - 0 - 2",
+          "action": "point",
+          "servingTeamBefore": "A",
+          "servingTeamAfter": "A",
+          "serverNumberBefore": 2,
+          "serverNumberAfter": 2,
+          "currentServerIndexBefore": 0,
+          "currentServerIndexAfter": 0,
+          "serverNameBefore": "Rehearsal Ada",
+          "serverNameAfter": "Rehearsal Ada",
+          "serveSideBefore": "right",
+          "serveSideAfter": "left",
+          "scoreBefore": {
+            "A": 0,
+            "B": 0
+          },
+          "scoreAfter": {
+            "A": 1,
+            "B": 0
+          },
+          "createdAt": "2025-01-01T10:01:00Z"
+        }
+      ],
+      "actual": [
+        {
+          "id": "rehearsal_active_r1",
+          "rallyWinner": "A",
+          "previousScore": "0 - 0 - 2",
+          "newScore": "1 - 0 - 2",
+          "action": "point",
+          "servingTeamBefore": "A",
+          "servingTeamAfter": "A",
+          "serverNumberBefore": 2,
+          "serverNumberAfter": 2,
+          "currentServerIndexBefore": 0,
+          "currentServerIndexAfter": 0,
+          "serverNameBefore": "Rehearsal Ada",
+          "serverNameAfter": "Rehearsal Ada",
+          "serveSideBefore": "right",
+          "serveSideAfter": "left",
+          "scoreBefore": {
+            "A": 0,
+            "B": 0
+          },
+          "scoreAfter": {
+            "A": 1,
+            "B": 0
+          },
+          "createdAt": "2025-01-01T10:01:00Z"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "Player account 8",
+      "expected": {
+        "id": "rehearsal:player:v1",
+        "role": "player",
+        "playerId": "legacy:player:1",
+        "verified": true,
+        "active": true
+      },
+      "actual": {
+        "id": "rehearsal:player:v1",
+        "role": "player",
+        "playerId": "legacy:player:1",
+        "verified": true,
+        "active": true
+      },
+      "passed": true
+    },
+    {
+      "name": "legacy:visitor:rehearsal_visitor Visitor ownership and history",
+      "expected": {
+        "ownerId": "rehearsal:visitor:v1",
+        "status": "active",
+        "game": {
+          "id": "legacy:visitor:rehearsal_visitor",
+          "type": "doubles",
+          "scorerName": "Court 1",
+          "teamA": {
+            "name": "Team A",
+            "players": [
+              "Visitor One",
+              "Visitor Two"
+            ],
+            "positions": {
+              "right": 1,
+              "left": 0
+            },
+            "startingRight": 0,
+            "score": 1
+          },
+          "teamB": {
+            "name": "Team B",
+            "players": [
+              "Visitor Three",
+              "Visitor Four"
+            ],
+            "positions": {
+              "right": 0,
+              "left": 1
+            },
+            "startingRight": 0,
+            "score": 0
+          },
+          "servingTeam": "A",
+          "firstServer": "A",
+          "serverNumber": 2,
+          "currentServerIndex": 0,
+          "targetScore": 11,
+          "winByTwo": true,
+          "status": "active",
+          "winner": null,
+          "createdBy": null,
+          "matchScope": "standard",
+          "sideOuts": 0,
+          "timeoutsUsed": {
+            "A": 0,
+            "B": 0
+          },
+          "events": [
+            {
+              "id": "rehearsal_visitor_r1",
+              "rallyWinner": "A",
+              "previousScore": "0 - 0 - 2",
+              "newScore": "1 - 0 - 2",
+              "action": "point",
+              "servingTeamBefore": "A",
+              "servingTeamAfter": "A",
+              "serverNumberBefore": 2,
+              "serverNumberAfter": 2,
+              "currentServerIndexBefore": 0,
+              "currentServerIndexAfter": 0,
+              "serverNameBefore": "Visitor One",
+              "serverNameAfter": "Visitor One",
+              "serveSideBefore": "right",
+              "serveSideAfter": "left",
+              "scoreBefore": {
+                "A": 0,
+                "B": 0
+              },
+              "scoreAfter": {
+                "A": 1,
+                "B": 0
+              },
+              "createdAt": "2025-01-02T09:01:00Z"
+            }
+          ],
+          "createdAt": "2025-01-02T09:00:00Z",
+          "startedAt": "2025-01-02T09:00:00.000Z",
+          "endedAt": null,
+          "endedEarly": false,
+          "endReason": null,
+          "retiredTeam": null
+        }
+      },
+      "actual": {
+        "ownerId": "rehearsal:visitor:v1",
+        "status": "active",
+        "game": {
+          "id": "legacy:visitor:rehearsal_visitor",
+          "type": "doubles",
+          "scorerName": "Court 1",
+          "teamA": {
+            "name": "Team A",
+            "players": [
+              "Visitor One",
+              "Visitor Two"
+            ],
+            "positions": {
+              "right": 1,
+              "left": 0
+            },
+            "startingRight": 0,
+            "score": 1
+          },
+          "teamB": {
+            "name": "Team B",
+            "players": [
+              "Visitor Three",
+              "Visitor Four"
+            ],
+            "positions": {
+              "right": 0,
+              "left": 1
+            },
+            "startingRight": 0,
+            "score": 0
+          },
+          "servingTeam": "A",
+          "firstServer": "A",
+          "serverNumber": 2,
+          "currentServerIndex": 0,
+          "targetScore": 11,
+          "winByTwo": true,
+          "status": "active",
+          "winner": null,
+          "createdBy": null,
+          "matchScope": "standard",
+          "sideOuts": 0,
+          "timeoutsUsed": {
+            "A": 0,
+            "B": 0
+          },
+          "events": [
+            {
+              "id": "rehearsal_visitor_r1",
+              "rallyWinner": "A",
+              "previousScore": "0 - 0 - 2",
+              "newScore": "1 - 0 - 2",
+              "action": "point",
+              "servingTeamBefore": "A",
+              "servingTeamAfter": "A",
+              "serverNumberBefore": 2,
+              "serverNumberAfter": 2,
+              "currentServerIndexBefore": 0,
+              "currentServerIndexAfter": 0,
+              "serverNameBefore": "Visitor One",
+              "serverNameAfter": "Visitor One",
+              "serveSideBefore": "right",
+              "serveSideAfter": "left",
+              "scoreBefore": {
+                "A": 0,
+                "B": 0
+              },
+              "scoreAfter": {
+                "A": 1,
+                "B": 0
+              },
+              "createdAt": "2025-01-02T09:01:00Z"
+            }
+          ],
+          "createdAt": "2025-01-02T09:00:00Z",
+          "startedAt": "2025-01-02T09:00:00.000Z",
+          "endedAt": null,
+          "endedEarly": false,
+          "endReason": null,
+          "retiredTeam": null
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "legacy:visitor:rehearsal_visitor Visitor isolation",
+      "expected": {
+        "owner": "legacy:visitor:rehearsal_visitor",
+        "other": null,
+        "regular": false
+      },
+      "actual": {
+        "owner": "legacy:visitor:rehearsal_visitor",
+        "other": null,
+        "regular": false
+      },
+      "passed": true
+    },
+    {
+      "name": "Qlik get-events rehearsal_v1",
+      "expected": {
+        "count": 1,
+        "digest": "be943cb3db1275621e35b9516eba6617479c8d98d8db9667d7cf426db9d78d89"
+      },
+      "actual": {
+        "count": 1,
+        "digest": "be943cb3db1275621e35b9516eba6617479c8d98d8db9667d7cf426db9d78d89"
+      },
+      "passed": true
+    },
+    {
+      "name": "Qlik get-matches rehearsal_v1",
+      "expected": {
+        "count": 3,
+        "digest": "8e10bca9a04014f6f2e2c7b774e7af78de018956985a38cd3771c7bdcc4f0bf9"
+      },
+      "actual": {
+        "count": 3,
+        "digest": "8e10bca9a04014f6f2e2c7b774e7af78de018956985a38cd3771c7bdcc4f0bf9"
+      },
+      "passed": true
+    },
+    {
+      "name": "Qlik get-leaderboard-results rehearsal_v1",
+      "expected": {
+        "count": 1,
+        "digest": "3a2a15c36ca1a7e319a1a1159b2fb545d358508baa5528842911e2f5da2c7d94"
+      },
+      "actual": {
+        "count": 1,
+        "digest": "3a2a15c36ca1a7e319a1a1159b2fb545d358508baa5528842911e2f5da2c7d94"
+      },
+      "passed": true
+    },
+    {
+      "name": "Qlik get-leaderboard-players rehearsal_v1",
+      "expected": {
+        "count": 12,
+        "digest": "3405467afd718535c31108b3a77c844051c37dc49de3d980da8ce6348b6255cf"
+      },
+      "actual": {
+        "count": 12,
+        "digest": "3405467afd718535c31108b3a77c844051c37dc49de3d980da8ce6348b6255cf"
+      },
+      "passed": true
+    }
+  ],
+  "reviewItems": [
+    "Current Event differs for rehearsal_v1; switch only at cutover"
+  ],
+  "failures": [],
+  "status": "review",
+  "comparisonDigest": "8784f414f7cecd3002ca5c8065fbe8f573e827b28f7dfc6100f395b68bfbb44f"
+}
