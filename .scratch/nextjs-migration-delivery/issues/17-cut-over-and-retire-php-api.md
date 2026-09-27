@@ -14,3 +14,5 @@
 - [ ] Post-cutover browser journeys cover staff, scorer, Visitor, Player, spectator, and Qlik-facing operations. The runbook lists the journeys; execution awaits the live switch.
 
 Implementation evidence: `docs/migration/cutover-runbook.md` describes the operator sequence, `PP_WRITE_FREEZE` gates both applications, and `--verify-only` reconciles a frozen snapshot against a read-only PostgreSQL connection. The disposable Neon fixture passed 31 read-only checks with no failures and one expected Current Event review item. No production traffic, Qlik connection, MySQL permissions, or PHP deployment has been changed.
+
+Connected-service evidence (2026-09-27): [cutover readiness check](../../../docs/migration/cutover-readiness-2026-09-27.md). The Supabase connection exposes only the incomplete preview project; the Vercel connection cannot access the project team. Production target and routing details remain outstanding.
