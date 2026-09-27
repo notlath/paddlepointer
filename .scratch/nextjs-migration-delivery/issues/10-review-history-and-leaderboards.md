@@ -4,10 +4,12 @@
 
 **Blocked by:** 04 Manage the Current Event; 05 Manage the Player directory; 07 Prototype and deliver the Scoreboard Match flow; 08 Correct Tournament Match operations.
 
-**Status:** ready-for-agent
+**Status:** implemented; local database browser verification pending
 
-- [ ] Staff can view Match History and Leaderboards for the Current Event and switch to All Events.
-- [ ] All Events includes eligible finished Matches played outside a Tournament and identifies the active selection.
-- [ ] Event Leaderboards include only eligible finished Matches for that Event; Visitor Matches are excluded from MTC Player standings.
-- [ ] Player names and merged identities resolve to the current surviving Player record.
-- [ ] Browser journeys cover Event selection, historical results, standings, empty states, and permission boundaries.
+- [x] Staff can view Match History and Leaderboards for the Current Event and switch to All Events.
+- [x] All Events includes eligible finished Matches played outside a Tournament and identifies the active selection.
+- [x] Event Leaderboards include only eligible finished Matches for that Event; Visitor Matches are excluded from MTC Player standings.
+- [x] Player names and merged identities resolve to the current surviving Player record.
+- [x] Browser journeys cover Event selection, historical results, standings, empty states, and permission boundaries.
+
+The browser journey is implemented but needs a disposable local PostgreSQL database and auth test outbox to execute. The current Match schema contains only MTC Player records; Visitor Match storage is delivered by ticket 11, and the history query requires four current Player participants before including a result in standings.
