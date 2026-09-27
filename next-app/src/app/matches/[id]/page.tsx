@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { asc, eq } from "drizzle-orm";
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { db } from "@/server/auth";
 import { match, matchPlayer, player } from "@/server/schema";
 
 export default async function MatchPage({ params }: { params: Promise<{ id: string }> }) {
   const principal = await currentPrincipal();
   if (!principal) redirect("/sign-in");
-  if (principal.role === "visitor") redirect("/account");
+  if (!isStaff(principal.role)) redirect("/account");
   const { id } = await params;
   const [record] = await db.select({ id: match.id, playedAt: match.playedAt }).from(match).where(eq(match.id, id));
   if (!record) notFound();

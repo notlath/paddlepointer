@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { readEventOperations } from "@/server/match-operations";
 import { MatchOperations } from "./match-operations";
 
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function EventPage({ params }: { params: Promise<{ id: string }> }) {
   const principal = await currentPrincipal();
   if (!principal) redirect("/sign-in");
-  if (principal.role === "visitor") redirect("/account");
+  if (!isStaff(principal.role)) redirect("/account");
   const { id } = await params;
   const record = await readEventOperations(id);
   if (!record) notFound();

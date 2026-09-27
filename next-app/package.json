@@ -9,7 +9,9 @@
     "test:smoke": "playwright test",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "bootstrap:super-admin": "bun scripts/bootstrap-super-admin.ts"
+    "bootstrap:super-admin": "bun scripts/bootstrap-super-admin.ts",
+    "provision:player": "bun scripts/provision-player-account.ts",
+    "link:player": "bun scripts/link-player-account.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",

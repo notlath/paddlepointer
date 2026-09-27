@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { readScoreboard } from "@/server/scoreboard";
 import { Scoreboard } from "./scoreboard";
 
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function ScoreboardPage({ params }: { params: Promise<{ id: string }> }) {
   const principal = await currentPrincipal();
   if (!principal) redirect("/sign-in");
-  if (principal.role === "visitor") redirect("/account");
+  if (!isStaff(principal.role)) redirect("/account");
   const { id } = await params;
   const state = await readScoreboard(id);
   if (!state) notFound();

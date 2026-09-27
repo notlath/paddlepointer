@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { mergePlayers } from "@/server/players";
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const principal = await currentPrincipal();
   if (!principal) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
-  if (principal.role === "visitor") return NextResponse.json({ error: "Staff access required" }, { status: 403 });
+  if (!isStaff(principal.role)) return NextResponse.json({ error: "Staff access required" }, { status: 403 });
   const { id } = await params;
   const body = await request.json().catch(() => null);
   if (typeof body?.absorbedId !== "string" || body.confirm !== "MERGE") {

@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { desc, eq } from "drizzle-orm";
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { db } from "@/server/auth";
 import { currentEvent, event, tournament } from "@/server/schema";
 import { StartEvent } from "./start-event";
@@ -9,7 +9,7 @@ import Link from "next/link";
 export default async function EventsPage() {
   const principal = await currentPrincipal();
   if (!principal) redirect("/sign-in");
-  if (principal.role === "visitor") redirect("/account");
+  if (!isStaff(principal.role)) redirect("/account");
   const [events, current] = await Promise.all([
     db.select({ id: event.id, name: event.name, createdAt: event.createdAt }).from(event).innerJoin(tournament, eq(tournament.eventId, event.id)).orderBy(desc(event.createdAt), desc(event.id)),
     db.select({ eventId: currentEvent.eventId }).from(currentEvent).where(eq(currentEvent.singleton, 1)),

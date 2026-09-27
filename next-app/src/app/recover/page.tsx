@@ -11,7 +11,7 @@ export default function RecoverPage() {
     setMessage(response.ok ? "Check your email for the next step." : "Unable to send email. Check the address and try again.");
   }
   return <main>
-    <h1>Staff account recovery</h1>
+    <h1>Staff and Player account recovery</h1>
     <label>Email <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required /></label>
     <form onSubmit={(event) => send(event, "send-verification-email")}><button type="submit">Send verification email</button></form>
     <form onSubmit={(event) => send(event, "request-password-reset")}><button type="submit">Reset password</button></form>

@@ -8,7 +8,7 @@ import postgres from "postgres";
 import * as schema from "./schema";
 import { sendMail } from "./mail";
 
-export const STAFF_SESSION_SECONDS = 12 * 60 * 60;
+export const PASSWORD_SESSION_SECONDS = 12 * 60 * 60;
 export const VISITOR_SESSION_SECONDS = 30 * 24 * 60 * 60;
 const client = postgres(process.env.DATABASE_URL ?? "postgres://localhost:5432/unconfigured", {
   max: 1,
@@ -56,13 +56,13 @@ export const auth = betterAuth({
       create: {
         before: async (session) => {
           const user = await db.query.user.findFirst({ where: eq(schema.user.id, session.userId) });
-          if (!user || !user.isActive || !user.emailVerified || !["visitor", "admin", "super_admin"].includes(user.role)) {
+          if (!user || !user.isActive || !user.emailVerified || !["visitor", "player", "admin", "super_admin"].includes(user.role)) {
             throw new APIError("FORBIDDEN");
           }
           return {
             data: {
               ...session,
-              expiresAt: new Date(Date.now() + (user.role === "visitor" ? VISITOR_SESSION_SECONDS : STAFF_SESSION_SECONDS) * 1000),
+              expiresAt: new Date(Date.now() + (user.role === "visitor" ? VISITOR_SESSION_SECONDS : PASSWORD_SESSION_SECONDS) * 1000),
             },
           };
         },
@@ -75,14 +75,14 @@ export const auth = betterAuth({
       if (ctx.path === "/sign-in/username") {
         const username = bodyUsername(ctx.body);
         const existing = username ? await db.query.user.findFirst({ where: eq(schema.user.username, username) }) : null;
-        if (!existing || !["admin", "super_admin"].includes(existing.role) || !existing.isActive || !existing.emailVerified) {
+        if (!existing || !["player", "admin", "super_admin"].includes(existing.role) || !existing.isActive || !existing.emailVerified) {
           throw new APIError("FORBIDDEN");
         }
       }
       if (ctx.path === "/request-password-reset") {
         const email = bodyEmail(ctx.body);
         const existing = email ? await db.query.user.findFirst({ where: eq(schema.user.email, email) }) : null;
-        if (!existing || !["admin", "super_admin"].includes(existing.role) || !existing.isActive) {
+        if (!existing || !["player", "admin", "super_admin"].includes(existing.role) || !existing.isActive) {
           throw new APIError("FORBIDDEN");
         }
       }

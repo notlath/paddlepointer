@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { readHistory } from "@/server/history";
 
 export const dynamic = "force-dynamic";
@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export default async function HistoryPage({ searchParams }: { searchParams: Promise<{ event?: string }> }) {
   const principal = await currentPrincipal();
   if (!principal) redirect("/sign-in");
-  if (principal.role === "visitor") redirect("/account");
+  if (!isStaff(principal.role)) redirect("/account");
   const { event: eventId } = await searchParams;
   const { events, currentId, selected, results, standings, teamStandings } = await readHistory(eventId ?? null);
   const eventNames = new Map(events.map((item) => [item.id, item.name]));

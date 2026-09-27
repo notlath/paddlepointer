@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { db } from "@/server/auth";
 import { match, matchPlayer, player, user } from "@/server/schema";
 import { cleanPlayerName, cleanSkillLevel, findPlayerByName } from "@/server/players";
@@ -10,7 +10,7 @@ type Params = { params: Promise<{ id: string }> };
 async function staffAccess() {
   const principal = await currentPrincipal();
   if (!principal) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
-  if (principal.role === "visitor") return NextResponse.json({ error: "Staff access required" }, { status: 403 });
+  if (!isStaff(principal.role)) return NextResponse.json({ error: "Staff access required" }, { status: 403 });
   return null;
 }
 

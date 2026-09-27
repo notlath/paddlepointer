@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { db } from "@/server/auth";
 import { match, matchPlayer, player, user } from "@/server/schema";
 
 export default async function PlayerPage({ params }: { params: Promise<{ id: string }> }) {
   const principal = await currentPrincipal();
   if (!principal) redirect("/sign-in");
-  if (principal.role === "visitor") redirect("/account");
+  if (!isStaff(principal.role)) redirect("/account");
   const { id } = await params;
   const [record] = await db.select({ name: player.name, skillLevel: player.skillLevel, accountId: user.id })
     .from(player).leftJoin(user, eq(user.playerId, player.id)).where(eq(player.id, id));

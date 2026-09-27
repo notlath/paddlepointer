@@ -1,4 +1,4 @@
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { readOpenPlay } from "@/server/open-play";
 import { listPlayers } from "@/server/players";
 import Link from "next/link";
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export default async function OpenPlayPage() {
   const principal = await currentPrincipal();
   if (!principal) redirect("/sign-in");
-  if (principal.role === "visitor") redirect("/account");
+  if (!isStaff(principal.role)) redirect("/account");
   const [record, players] = await Promise.all([readOpenPlay(), listPlayers()]);
   return (
     <main>

@@ -53,7 +53,7 @@ export default function SignInPage() {
     <main>
       <h1>Sign in</h1>
       <nav aria-label="Account type">
-        <button type="button" onClick={() => { setMode("staff"); setMessage(""); }}>Staff</button>
+        <button type="button" onClick={() => { setMode("staff"); setMessage(""); }}>Staff or Player</button>
         <button type="button" onClick={() => { setMode("visitor"); setMessage(""); }}>Visitor</button>
       </nav>
       <form onSubmit={submit}>

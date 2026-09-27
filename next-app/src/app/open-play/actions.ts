@@ -1,12 +1,12 @@
 "use server";
 
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { adjustMatch, generateSchedule, readOpenPlay, saveSetup, validateAdjustment, validateSetup } from "@/server/open-play";
 
 async function denied() {
   const principal = await currentPrincipal();
   if (!principal) return { error: "Sign in required", status: 401 };
-  if (principal.role === "visitor") return { error: "Staff access required", status: 403 };
+  if (!isStaff(principal.role)) return { error: "Staff access required", status: 403 };
   return null;
 }
 

@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { desc, eq } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
-import { currentPrincipal } from "@/server/authorize";
+import { currentPrincipal, isStaff } from "@/server/authorize";
 import { db } from "@/server/auth";
 import { currentEvent, event, tournament } from "@/server/schema";
 
 export async function GET() {
   const principal = await currentPrincipal();
   if (!principal) return NextResponse.json({ error: "Sign in required" }, { status: 401 });
-  if (principal.role === "visitor") return NextResponse.json({ error: "Staff access required" }, { status: 403 });
+  if (!isStaff(principal.role)) return NextResponse.json({ error: "Staff access required" }, { status: 403 });
   const [events, current] = await Promise.all([
     db.select({ id: event.id, name: event.name, createdAt: event.createdAt }).from(event).innerJoin(tournament, eq(tournament.eventId, event.id)).orderBy(desc(event.createdAt), desc(event.id)),
     db.select({ eventId: currentEvent.eventId }).from(currentEvent).where(eq(currentEvent.singleton, 1)),
