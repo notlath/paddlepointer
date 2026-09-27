@@ -70,13 +70,13 @@ export function planLegacyStructure(snapshot: LegacySnapshot): ImportPlan {
     tournamentIds.add(sourceId);
     courtCounts.set(sourceId, courts);
     rows.events.push({ id: eventId, name: eventName, created_at: source.updated_at == null ? "1970-01-01T00:00:00Z" : String(source.updated_at) });
-    rows.tournaments.push({ id: `legacy:tournament:${sourceId}`, event_id: eventId, courts, matches_per_player: matchesPerPlayer, target_score: targetScore, transition_minutes: transition });
+    rows.tournaments.push({ id: eventId, event_id: eventId, courts, matches_per_player: matchesPerPlayer, target_score: targetScore, transition_minutes: transition });
     if (typeof data.playersText !== "string") rejected.push(`tournament ${sourceId}: playersText is missing or invalid`);
     const roster = typeof data.playersText === "string" ? data.playersText.split(/[\n,]+/).map((n) => n.trim()).filter(Boolean) : [];
     for (const rosterName of new Set(roster.map(nameKey))) {
       const playerId = playersByName.get(rosterName);
       if (!playerId) { discrepancies.push(`tournament ${sourceId}: roster player ${rosterName} has no Player`); continue; }
-      rows.rosters.push({ id: `${sourceId}:${playerId}`, tournament_id: `legacy:tournament:${sourceId}`, player_id: playerId, available: true });
+      rows.rosters.push({ id: `${sourceId}:${playerId}`, tournament_id: eventId, player_id: playerId, available: true });
     }
   }
   const rounds = new Set<string>();
@@ -103,9 +103,9 @@ export function planLegacyStructure(snapshot: LegacySnapshot): ImportPlan {
       rejected.push(`match ${tournamentId}/${matchId}: player repeated in match or round`); continue;
     }
     occupied.add(key); seen.add(`match:${tournamentId}:${matchId}`);
-    if (!rounds.has(roundId)) { rounds.add(roundId); rows.rounds.push({ id: roundId, tournament_id: `legacy:tournament:${tournamentId}`, number: round }); }
+    if (!rounds.has(roundId)) { rounds.add(roundId); rows.rounds.push({ id: roundId, tournament_id: `legacy:event:${tournamentId}`, number: round }); }
     const targetId = `legacy:match:${tournamentId}:${matchId}`;
-    rows.matches.push({ id: targetId, tournament_id: `legacy:tournament:${tournamentId}`, round_id: roundId, court, status });
+    rows.matches.push({ id: targetId, tournament_id: `legacy:event:${tournamentId}`, round_id: roundId, court, status });
     for (const [team, members] of [["A", a], ["B", b]] as const) {
       members.forEach((member, index) => {
         const playerId = playersByName.get(nameKey(member))!;

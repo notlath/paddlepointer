@@ -13,7 +13,7 @@ if (!url) {
   const sourceId = `fixture_${crypto.randomUUID().replaceAll("-", "")}`;
   const playerId = `legacy:player:${sourceId}`;
   const eventId = `legacy:event:${sourceId}`;
-  const tournamentId = `legacy:tournament:${sourceId}`;
+  const tournamentId = eventId;
   const roundId = `legacy:round:${sourceId}:1`;
   const matchId = `legacy:match:${sourceId}:m1`;
   const directory = await mkdtemp(join(tmpdir(), "mtc-legacy-import-"));
@@ -42,6 +42,7 @@ if (!url) {
     await sql`DELETE FROM tournament_round WHERE id = ${roundId}`;
     await sql`DELETE FROM tournament_player WHERE tournament_id = ${tournamentId}`;
     await sql`DELETE FROM tournament WHERE id = ${tournamentId}`;
+    await sql`DELETE FROM event_revision WHERE event_id = ${eventId}`;
     await sql`DELETE FROM event WHERE id = ${eventId}`;
     await sql`DELETE FROM player WHERE id = ${playerId}`;
     await sql.end();

@@ -4,7 +4,7 @@
 
 **Blocked by:** 04 Manage the Current Event; 05 Manage the Player directory; 06 Set up and schedule Open Play.
 
-**Status:** implemented; disposable PostgreSQL integration run and populated legacy snapshot verification pending
+**Status:** implemented; fixture integration verified on disposable Neon PostgreSQL; no populated legacy MySQL source exists
 
 - [x] A repeatable import handles representative legacy Event, Tournament, Round, court, Tournament Match, Player, and skill-level data.
 - [x] Stable relationships are preserved in the relational schema; legacy JSON is transformed into the agreed canonical model where applicable.
