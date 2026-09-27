@@ -29,6 +29,20 @@
       "when": 1790445358559,
       "tag": "0003_whole_maelstrom",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790476769643,
+      "tag": "0004_odd_shatterstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790479981510,
+      "tag": "0005_shallow_omega_flight",
+      "breakpoints": true
     }
   ]
 }

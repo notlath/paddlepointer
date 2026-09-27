@@ -1,7 +1,7 @@
 import { and, asc, eq, inArray, sql } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { db } from "./auth";
-import { matchPlayer, player, user } from "./schema";
+import { matchPlayer, player, tournamentMatchPlayer, tournamentPlayer, user } from "./schema";
 
 export function cleanPlayerName(value: unknown) {
   if (typeof value !== "string") return null;
@@ -37,9 +37,24 @@ export async function mergePlayers(survivorId: string, absorbedId: string) {
         tx.select({ matchId: matchPlayer.matchId }).from(matchPlayer).where(eq(matchPlayer.playerId, absorbedId)))))
       .limit(1);
     if (sameMatch.length) return { error: "Both Players appear in the same Match", status: 409 };
+    const scheduled = await tx.select({ roundId: tournamentMatchPlayer.roundId, playerId: tournamentMatchPlayer.playerId }).from(tournamentMatchPlayer).where(inArray(tournamentMatchPlayer.playerId, [survivorId, absorbedId]));
+    if (scheduled.some((entry) => scheduled.some((other) => entry.roundId === other.roundId && entry.playerId !== other.playerId))) {
+      return { error: "Both Players appear in the same Round; resolve the Schedule before merging", status: 409 };
+    }
     if (!survivor.skillLevel && absorbed.skillLevel) await tx.update(player).set({ skillLevel: absorbed.skillLevel }).where(eq(player.id, survivorId));
     await tx.update(user).set({ playerId: survivorId }).where(eq(user.playerId, absorbedId));
     await tx.update(matchPlayer).set({ playerId: survivorId }).where(eq(matchPlayer.playerId, absorbedId));
+    await tx.update(tournamentMatchPlayer).set({ playerId: survivorId }).where(eq(tournamentMatchPlayer.playerId, absorbedId));
+    const absorbedRosters = await tx.select({ tournamentId: tournamentPlayer.tournamentId, available: tournamentPlayer.available }).from(tournamentPlayer).where(eq(tournamentPlayer.playerId, absorbedId));
+    for (const roster of absorbedRosters) {
+      const [survivingRoster] = await tx.select({ available: tournamentPlayer.available }).from(tournamentPlayer).where(and(eq(tournamentPlayer.tournamentId, roster.tournamentId), eq(tournamentPlayer.playerId, survivorId)));
+      if (survivingRoster) {
+        if (roster.available && !survivingRoster.available) await tx.update(tournamentPlayer).set({ available: true }).where(and(eq(tournamentPlayer.tournamentId, roster.tournamentId), eq(tournamentPlayer.playerId, survivorId)));
+        await tx.delete(tournamentPlayer).where(and(eq(tournamentPlayer.tournamentId, roster.tournamentId), eq(tournamentPlayer.playerId, absorbedId)));
+      } else {
+        await tx.update(tournamentPlayer).set({ playerId: survivorId }).where(and(eq(tournamentPlayer.tournamentId, roster.tournamentId), eq(tournamentPlayer.playerId, absorbedId)));
+      }
+    }
     await tx.delete(player).where(eq(player.id, absorbedId));
     return { id: survivorId, name: survivor.name, skillLevel: survivor.skillLevel ?? absorbed.skillLevel, status: 200 };
   });
