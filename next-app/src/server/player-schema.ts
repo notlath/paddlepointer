@@ -35,6 +35,8 @@ export const match = pgTable("match", {
   rightB: integer("right_b").notNull().default(0),
   sideOuts: integer("side_outs").notNull().default(0),
   winner: text("winner"),
+  endedEarly: boolean("ended_early").notNull().default(false),
+  retiredTeam: text("retired_team"),
   rallyLog: jsonb("rally_log").$type<Record<string, unknown>[]>().notNull().default(sql`'[]'::jsonb`),
   endedAt: timestamp("ended_at", { withTimezone: true }),
 }, (table) => [
@@ -43,6 +45,7 @@ export const match = pgTable("match", {
   check("match_teams_valid", sql`${table.firstServer} IN ('A','B') AND ${table.servingTeam} IN ('A','B') AND (${table.winner} IS NULL OR ${table.winner} IN ('A','B'))`),
   check("match_positions_valid", sql`${table.startingRightA} IN (0,1) AND ${table.startingRightB} IN (0,1) AND ${table.rightA} IN (0,1) AND ${table.rightB} IN (0,1) AND ${table.serverIndex} IN (0,1) AND ${table.serverNumber} IN (1,2)`),
   check("match_scores_valid", sql`${table.scoreA} >= 0 AND ${table.scoreB} >= 0 AND ${table.sideOuts} >= 0`),
+  check("match_retirement_valid", sql`${table.retiredTeam} IS NULL OR (${table.retiredTeam} IN ('A','B') AND ${table.retiredTeam} <> ${table.winner} AND ${table.endedEarly})`),
 ]);
 
 export const matchPlayer = pgTable("match_player", {

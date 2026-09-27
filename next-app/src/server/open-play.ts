@@ -30,7 +30,7 @@ export function validateSetup(body: unknown): SetupInput | Failure {
 }
 
 async function currentTournament(tx: Pick<typeof db, "select">) {
-  const [row] = await tx.select({ id: tournament.id, courts: tournament.courts, matchesPerPlayer: tournament.matchesPerPlayer, targetScore: tournament.targetScore, transitionMinutes: tournament.transitionMinutes })
+  const [row] = await tx.select({ id: tournament.id, eventId: tournament.eventId, courts: tournament.courts, matchesPerPlayer: tournament.matchesPerPlayer, targetScore: tournament.targetScore, transitionMinutes: tournament.transitionMinutes })
     .from(currentEvent).innerJoin(tournament, eq(tournament.eventId, currentEvent.eventId)).where(eq(currentEvent.singleton, 1));
   return row ?? null;
 }

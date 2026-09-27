@@ -77,6 +77,13 @@ test("scorer starts a scheduled Match, records Rally outcomes, undoes, reloads, 
   await page.getByRole("button", { name: "Undo last action" }).click();
   await expect(page.getByLabel("Score call")).toHaveText("1 - 0 - 2");
   page.once("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Reset active Match" }).click();
+  await expect(page.getByRole("status")).toHaveText("Match reset");
+  await expect(page.getByLabel("Score call")).toHaveText("0 - 0 - 2");
+  await expect(page.getByText("No Rallies yet.")).toBeVisible();
+  await page.getByRole("button", { name: "Team A wins Rally" }).click();
+  await expect(page.getByLabel("Score call")).toHaveText("1 - 0 - 2");
+  page.once("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: "End Match" }).click();
   await expect(page.getByRole("status")).toHaveText("Match saved");
   await expect(page.getByRole("button", { name: "Undo last action" })).toBeDisabled();

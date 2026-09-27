@@ -50,6 +50,13 @@
       "when": 1790489379481,
       "tag": "0006_soft_post",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1790499854057,
+      "tag": "0007_sour_monster_badoon",
+      "breakpoints": true
     }
   ]
 }

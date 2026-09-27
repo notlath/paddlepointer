@@ -18,7 +18,7 @@ export async function startMatchAction(id: string, firstServer: unknown, rightA:
   return (await readScoreboard(id)) ?? { error: "Tournament Match not found", status: 404 };
 }
 
-export async function changeMatchAction(id: string, action: "rally" | "undo" | "end", winner?: unknown) {
+export async function changeMatchAction(id: string, action: "rally" | "undo" | "end" | "reset-active", winner?: unknown) {
   const refusal = await allowed();
   if (refusal) return refusal;
   const result = await changeMatch(id, action, winner);

@@ -70,7 +70,7 @@ export function OpenPlayWorkspace({ initial, players }: { initial: Schedule; pla
       <button disabled={busy}>Save setup</button>
     </form>
     <p role="status">{message}</p>
-    <section><h2>Schedule</h2><button type="button" disabled={busy} onClick={generate}>Generate Schedule</button>
+    <section><h2>Schedule</h2><p><Link href={`/events/${schedule.eventId}`}>Manage Match results</Link></p><button type="button" disabled={busy} onClick={generate}>Generate Schedule</button>
       {schedule.rounds.length === 0 && <p>No Schedule yet</p>}
       {schedule.rounds.map((round) => <section key={round.number}><h3>Round {round.number}</h3>
         {round.matches.map((match) => <form key={`${match.id}:${round.number}:${match.court}:${match.teamA.map((item) => item.playerId)}:${match.teamB.map((item) => item.playerId)}`} onSubmit={(event) => adjust(match.id, event)}>
